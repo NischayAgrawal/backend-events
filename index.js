@@ -27,6 +27,16 @@ app.get("/events", async (req, res) => {
   }
 });
 
+app.get("/events/:id", async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    if (!event) res.status(404).json({ error: "No event was found." });
+    else res.json(event);
+  } catch (error) {
+    console.log("Error fetching the data.");
+  }
+});
+
 app.post("/events", async (req, res) => {
   try {
     const newEvent = await new Event(req.body).save();
